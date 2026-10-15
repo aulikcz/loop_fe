@@ -26,10 +26,10 @@ jobs:
       - run: npm ci
       - run: npx ng build --base-href /loop_fe/
       - name: SPA fallback (404.html)
-        run: cp dist/loop_fe/browser/index.html dist/loop_fe/browser/404.html
+        run: cp dist/loop/browser/index.html dist/loop/browser/404.html
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/moje-app/browser
+          path: dist/loop/browser
 
   deploy:
     needs: build
