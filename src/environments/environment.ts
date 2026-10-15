@@ -1,1 +1,1 @@
-export const environment = {apiUrl: 'placeholder'};
+export const environment = {apiUrl: 'https://loop-x26k.onrender.com'};
