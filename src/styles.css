@@ -1,1 +1,89 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  color-scheme: dark;
+  --bg: #1a1916;
+  --surface: #25231f;
+  --border: #3a3731;
+  --text: #e8e4da;
+  --muted: #9a9486;
+  --accent: #d9a441;
+  --accent-text: #1a1916;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+h2 { margin: 0 0 1rem; }
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.brand { font-weight: 700; font-size: 1.2rem; }
+
+main { max-width: 42rem; margin: 0 auto; padding: 1.5rem; }
+
+.panel, .card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+}
+.panel { margin-bottom: 1.5rem; }
+
+.muted { color: var(--muted); }
+
+button, a.button {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--accent-text);
+  border: 0;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font: inherit;
+  cursor: pointer;
+}
+button:hover, a.button:hover { filter: brightness(1.1); text-decoration: none; }
+a.button.secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+
+input, select {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 0.25rem;
+  padding: 0.5rem;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font: inherit;
+}
+input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.page-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+.card { display: flex; align-items: center; gap: 0.75rem; }
+.card strong { flex: 1; }
+
+.badge {
+  font-size: 0.75rem;
+  padding: 0.1rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+}
+.badge.narrator { color: var(--accent); border-color: var(--accent); }
+
+.form { display: grid; gap: 1rem; }
+.actions { display: flex; gap: 0.5rem; }

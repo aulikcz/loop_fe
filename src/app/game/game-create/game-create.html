@@ -1,0 +1,21 @@
+<h2>Nová hra</h2>
+
+<div class="form">
+  <label>Název
+    <input #nameInput (input)="name.set(nameInput.value)">
+  </label>
+
+    <label>Systém
+        <select #systemSelect (change)="gameSystemCode.set(systemSelect.value)">
+            <option value="">-- vyber --</option>
+                @for (gs of gameSystems(); track gs.id) {
+                    <option [value]="gs.code">{{ gs.name }}</option>
+                }
+        </select>
+    </label>
+
+  <div class="actions">
+    <button (click)="save()">Založit</button>
+    <a routerLink="/games" class="button secondary">Zpět</a>
+  </div>
+</div>

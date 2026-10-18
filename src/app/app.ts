@@ -1,23 +1,19 @@
-import { Component, inject, Inject, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../environments/environment';
+import { Component, inject, signal } from '@angular/core';
 import { GameSystem } from './game-system/game-system.model';
 import { GameSystemService } from './game-system/game-system.service';
+import { RouterOutlet, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  template: `
-    <button (click)="load()">Načíst Game Systems</button>
-    @for (gs of gameSystems(); track gs.id) {
-     <p>{{ gs.name }} ({{ gs.code }})</p>
-   }
-  `,
+  imports: [RouterOutlet, RouterLink],
+  templateUrl: './app.html',
+  styleUrl: './app.css'
 })
 export class App {
   gameSystems = signal<GameSystem[]>([]);
-  private gameServiceSystem = inject(GameSystemService);
+  private gameSystemService = inject(GameSystemService);
   load() {
-    this.gameServiceSystem.getAll()
+    this.gameSystemService.getAll()
       .subscribe({
         next: r => this.gameSystems.set(r),
         error: err => console.error('Failed on loading', err)

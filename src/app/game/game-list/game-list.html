@@ -1,0 +1,16 @@
+<div class="page-head">
+  <h2>Moje hry</h2>
+  <a routerLink="/games/new" class="button">Nová hra</a>
+</div>
+
+<ul class="list">
+  @for (g of games(); track g.id) {
+    <li class="card">
+      <strong>{{ g.name }}</strong>
+      <span class="muted">{{ g.gameSystem }}</span>
+      <span class="badge" [class.narrator]="g.playerRole === 'NARRATOR'">{{ g.playerRole }}</span>
+    </li>
+  } @empty {
+    <li class="muted">Zatím žádné hry.</li>
+  }
+</ul>
