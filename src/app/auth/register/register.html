@@ -1,0 +1,30 @@
+<main class="register">
+  <h1>Registrace</h1>
+  <form (submit)="$event.preventDefault(); submit()">
+    <label>
+      Jméno
+      <input #nameInput type="text" autocomplete="nickname"
+             (input)="displayName.set(nameInput.value)">
+    </label>
+    <label>
+      E-mail
+      <input #emailInput type="email" autocomplete="username"
+             (input)="email.set(emailInput.value)">
+    </label>
+    <label>
+      Heslo
+      <input #passwordInput type="password" autocomplete="new-password"
+             (input)="password.set(passwordInput.value)">
+    </label>
+
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
+    }
+
+    <button type="submit"
+            [disabled]="loading() || !displayName() || !email() || !password()">
+      Zaregistrovat
+    </button>
+  </form>
+  <p>Už máš účet? <a routerLink="/login">Přihlas se</a></p>
+</main>

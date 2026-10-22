@@ -1,0 +1,25 @@
+<main class="login">
+  <h1>Loop</h1>
+  <form (submit)="$event.preventDefault(); submit()">
+    <label>
+      E-mail
+      <input #emailInput type="email" autocomplete="username"
+             (input)="email.set(emailInput.value)">
+    </label>
+    <label>
+      Heslo
+      <input #passwordInput type="password" autocomplete="current-password"
+             (input)="password.set(passwordInput.value)">
+    </label>
+
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
+    }
+
+    <button type="submit" [disabled]="loading() || !email() || !password()">
+      Přihlásit
+    </button>
+  </form>
+  <p>Nemáš účet? <a routerLink="/register">Zaregistruj se</a></p>
+  <p><a routerLink="/forgot-password">Zapomenuté heslo?</a></p>
+</main>
