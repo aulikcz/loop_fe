@@ -1,0 +1,136 @@
+<div class="grid gap-5">
+
+  <section class="card">
+    <h3 class="section-title">Identifikace</h3>
+    <div class="grid gap-4 sm:grid-cols-2">
+      <label class="field-label">
+        Věk
+        <input class="input" type="number" min="10" max="15"
+               [value]="data().age"
+               (input)="setAge($any($event.target).value)" />
+      </label>
+      <label class="field-label">
+        Archetyp
+        <select class="input" (change)="patch({ archetype: $any($event.target).value })">
+          @for (a of archetypes; track a) {
+            <option [value]="a" [selected]="a === data().archetype">{{ a }}</option>
+          }
+        </select>
+      </label>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3 class="section-title">Atributy</h3>
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      @for (a of attrs; track a) {
+        <div class="rounded-xl border border-line bg-white/5 p-4 text-center">
+          <div class="text-xs font-semibold tracking-[0.2em] text-aurora-cyan uppercase">{{ a }}</div>
+          <div class="my-2 font-display text-5xl font-semibold text-amber">{{ data().attrs[a] }}</div>
+          <div class="flex justify-center gap-1.5">
+            @for (i of levels; track i) {
+              <button type="button" class="dot" [class.dot-on]="i <= data().attrs[a]" (click)="setAttr(a, i)"></button>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="card">
+    <h3 class="section-title">Dovednosti</h3>
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      @for (g of skillGroups; track g.attr) {
+        <div>
+          <h4 class="mb-3 text-xs font-semibold tracking-widest text-dim uppercase">{{ g.attr }}</h4>
+          @for (s of g.skills; track s) {
+            <div class="mb-2 flex items-center justify-between gap-2">
+              <span class="text-sm capitalize">{{ s }}</span>
+              <span class="flex gap-1">
+                @for (i of levels; track i) {
+                  <button type="button" class="dot dot-sm" [class.dot-on]="i <= data().skills[s]" (click)="setSkill(s, i)"></button>
+                }
+              </span>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="card">
+    <h3 class="section-title">Stav postavy</h3>
+    <div class="flex flex-wrap gap-2">
+      @for (c of conditions; track c) {
+        <button type="button" class="chip" [class.chip-danger]="data().conditions[c]" (click)="toggleCondition(c)">{{ c }}</button>
+      }
+    </div>
+
+    <p class="field-label mt-6 mb-2">Štěstí (15 − věk = {{ luckSlots().length }})</p>
+    <div class="flex flex-wrap gap-2">
+      @for (i of luckSlots(); track i) {
+        <button type="button" class="bubble" [class.bubble-used]="data().luckUsed.includes(i)" (click)="toggleLuck(i)">{{ i + 1 }}</button>
+      }
+    </div>
+  </section>
+
+  <section class="card">
+    <h3 class="section-title">Osobnost</h3>
+    <div class="grid gap-4 sm:grid-cols-2">
+      <label class="field-label">
+        Drive – proč chodíš na dobrodružství
+        <textarea class="input" rows="2" [value]="data().drive" (input)="setText('drive', $any($event.target).value)"></textarea>
+      </label>
+      <label class="field-label">
+        Anchor – co tě drží v bezpečí
+        <textarea class="input" rows="2" [value]="data().anchor" (input)="setText('anchor', $any($event.target).value)"></textarea>
+      </label>
+      <label class="field-label">
+        Problem – tvůj problém doma
+        <textarea class="input" rows="2" [value]="data().problem" (input)="setText('problem', $any($event.target).value)"></textarea>
+      </label>
+      <label class="field-label">
+        Pride – tvá hrdost
+        <textarea class="input" rows="2" [value]="data().pride" (input)="setText('pride', $any($event.target).value)"></textarea>
+      </label>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3 class="section-title">Vztahy</h3>
+    <textarea class="input" rows="4" placeholder="Vztahy k ostatním dětem a NPC…"
+              [value]="data().relationships"
+              (input)="setText('relationships', $any($event.target).value)"></textarea>
+  </section>
+
+  <section class="card">
+    <h3 class="section-title">Vybavení a skrýš</h3>
+    <div class="grid gap-4 sm:grid-cols-2">
+      <label class="field-label">
+        Předměty u sebe
+        <textarea class="input" rows="3" [value]="data().items" (input)="setText('items', $any($event.target).value)"></textarea>
+      </label>
+      <label class="field-label">
+        Hideout – vaše skrýš
+        <textarea class="input" rows="3" [value]="data().hideout" (input)="setText('hideout', $any($event.target).value)"></textarea>
+      </label>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3 class="section-title">Zkušenosti (XP)</h3>
+    <div class="flex flex-wrap gap-2">
+      @for (i of xpSlots; track i) {
+        <button type="button" class="xpbox" [class.xpbox-on]="i < data().xp" (click)="setXp(i)">{{ i < data().xp ? '✓' : '' }}</button>
+      }
+    </div>
+  </section>
+
+  <section class="card">
+    <h3 class="section-title">Poznámky</h3>
+    <textarea class="input" rows="5"
+              [value]="data().notes"
+              (input)="setText('notes', $any($event.target).value)"></textarea>
+  </section>
+
+</div>

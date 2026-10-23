@@ -1,25 +1,30 @@
-<main class="login">
-  <h1>Loop</h1>
-  <form (submit)="$event.preventDefault(); submit()">
-    <label>
+<div class="mx-auto mt-12 w-full max-w-sm">
+  <h1 class="gradient-text text-center font-display text-5xl font-semibold tracking-wide">Grimoár</h1>
+  <p class="mb-8 mt-3 text-center text-sm text-dim">Postavy a hry pro všechny systémy</p>
+
+  <form class="card flex flex-col gap-4" (submit)="$event.preventDefault(); submit()">
+    <label class="field-label">
       E-mail
-      <input #emailInput type="email" autocomplete="username"
+      <input #emailInput class="input" type="email" autocomplete="username"
              (input)="email.set(emailInput.value)">
     </label>
-    <label>
+    <label class="field-label">
       Heslo
-      <input #passwordInput type="password" autocomplete="current-password"
+      <input #passwordInput class="input" type="password" autocomplete="current-password"
              (input)="password.set(passwordInput.value)">
     </label>
 
     @if (error()) {
-      <p class="error">{{ error() }}</p>
+      <p class="error-text">{{ error() }}</p>
     }
 
-    <button type="submit" [disabled]="loading() || !email() || !password()">
+    <button class="btn" type="submit" [disabled]="loading() || !email() || !password()">
       Přihlásit
     </button>
   </form>
-  <p>Nemáš účet? <a routerLink="/register">Zaregistruj se</a></p>
-  <p><a routerLink="/forgot-password">Zapomenuté heslo?</a></p>
-</main>
+
+  <div class="mt-6 flex flex-col items-center gap-2 text-sm">
+    <p class="text-dim">Nemáš účet? <a routerLink="/register">Zaregistruj se</a></p>
+    <a routerLink="/forgot-password">Zapomenuté heslo?</a>
+  </div>
+</div>

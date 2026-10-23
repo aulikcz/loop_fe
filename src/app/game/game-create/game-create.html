@@ -1,21 +1,23 @@
-<h2>Nová hra</h2>
+<h2 class="mb-6 text-2xl">Nová hra</h2>
 
-<div class="form">
-  <label>Název
-    <input #nameInput (input)="name.set(nameInput.value)">
+<div class="card flex max-w-lg flex-col gap-4">
+  <label class="field-label">
+    Název
+    <input #nameInput class="input" (input)="name.set(nameInput.value)">
   </label>
 
-    <label>Systém
-        <select #systemSelect (change)="gameSystemCode.set(systemSelect.value)">
-            <option value="">-- vyber --</option>
-                @for (gs of gameSystems(); track gs.id) {
-                    <option [value]="gs.code">{{ gs.name }}</option>
-                }
-        </select>
-    </label>
+  <label class="field-label">
+    Systém
+    <select #systemSelect class="input" (change)="gameSystemCode.set(systemSelect.value)">
+      <option value="">-- vyber --</option>
+      @for (gs of gameSystems(); track gs.id) {
+        <option [value]="gs.code">{{ gs.name }}</option>
+      }
+    </select>
+  </label>
 
-  <div class="actions">
-    <button (click)="save()">Založit</button>
-    <a routerLink="/games" class="button secondary">Zpět</a>
+  <div class="flex gap-2">
+    <button class="btn" (click)="save()">Založit</button>
+    <a routerLink="/games" class="btn btn-ghost">Zpět</a>
   </div>
 </div>

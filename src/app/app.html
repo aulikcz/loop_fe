@@ -1,20 +1,21 @@
-
 @if (auth.isLoggedIn()) {
-<header class="topbar">
-  <a routerLink="/games" class="brand">Loop</a>
-  <nav><a routerLink="/games">Hry</a></nav>
-  <button type="button" (click)="logout()">Odhlásit</button>
-</header>
-
-<main>
-    <details class="panel">
-      <summary>Herní systémy</summary>
-      <button (click)="load()">Načíst Game Systems</button>
-      @for (gs of gameSystems(); track gs.id) {
-        <p>{{ gs.name }} ({{ gs.code }})</p>
-      }
-    </details>
-
-</main>
+  <header class="sticky top-0 z-10 border-b border-line bg-bg/60 backdrop-blur-xl">
+    <div class="mx-auto flex max-w-5xl items-center gap-8 px-6 py-3">
+      <a routerLink="/games" class="flex items-center gap-2.5 hover:no-underline">
+        <img src="favicon.svg" alt="" class="h-7 w-7" />
+        <span class="gradient-text font-display text-xl font-semibold tracking-wide">Grimoár</span>
+      </a>
+      <nav class="flex flex-1 gap-1 text-sm font-medium">
+        <a routerLink="/games" routerLinkActive="bg-white/10 text-ink!"
+           class="rounded-lg px-3 py-1.5 text-dim transition hover:text-ink hover:no-underline">Hry</a>
+        <a routerLink="/characters" routerLinkActive="bg-white/10 text-ink!"
+           class="rounded-lg px-3 py-1.5 text-dim transition hover:text-ink hover:no-underline">Postavy</a>
+      </nav>
+      <button type="button" class="btn btn-ghost" (click)="logout()">Odhlásit</button>
+    </div>
+  </header>
 }
-<router-outlet />
+
+<main class="mx-auto max-w-5xl px-6 py-8">
+  <router-outlet />
+</main>

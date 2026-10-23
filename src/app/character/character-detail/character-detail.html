@@ -1,0 +1,39 @@
+<a routerLink="/characters" class="text-sm">← Zpět na postavy</a>
+
+@if (loading()) {
+  <p class="mt-6 text-dim">Načítám…</p>
+} @else if (error()) {
+  <p class="error-text mt-6">{{ error() }}</p>
+} @else if (character(); as c) {
+  <div class="mb-6 mt-4 flex flex-wrap items-center gap-4">
+    <input class="min-w-0 flex-1 border-b border-transparent bg-transparent pb-1 font-display text-3xl font-semibold text-ink transition focus:border-aurora-cyan focus:outline-none"
+           type="text" maxlength="100"
+           [value]="name()"
+           (input)="name.set($any($event.target).value)" />
+    <span class="badge">{{ c.systemCode }}</span>
+    <button class="btn" (click)="save()" [disabled]="saving() || !name().trim()">
+      {{ saving() ? 'Ukládám…' : 'Uložit' }}
+    </button>
+  </div>
+
+  @if (message()) {
+    <p class="mb-4 text-sm"
+       [class.text-ok]="message() === 'Uloženo.'"
+       [class.text-danger]="message() !== 'Uloženo.'">{{ message() }}</p>
+  }
+
+  @if (c.systemCode === 'loop') {
+    <app-loop-sheet [(sheet)]="sheet" />
+  } @else {
+    <div class="card">
+      <p class="mb-3 text-dim">Pro tento systém zatím nemáme vlastní kartu.</p>
+      <pre class="overflow-x-auto text-xs text-dim">{{ sheet() | json }}</pre>
+    </div>
+  }
+
+  <div class="mt-6 flex justify-end">
+    <button class="btn" (click)="save()" [disabled]="saving() || !name().trim()">
+      {{ saving() ? 'Ukládám…' : 'Uložit' }}
+    </button>
+  </div>
+}

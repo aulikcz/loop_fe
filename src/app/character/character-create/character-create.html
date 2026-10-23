@@ -1,0 +1,32 @@
+<a routerLink="/characters" class="text-sm">← Zpět na postavy</a>
+<h2 class="mb-6 mt-3 text-2xl font-semibold">Nová postava</h2>
+
+<div class="card flex max-w-lg flex-col gap-4">
+  <label class="field-label">
+    Jméno
+    <input class="input" type="text" maxlength="100"
+           [value]="name()"
+           (input)="name.set($any($event.target).value)" />
+  </label>
+
+  <label class="field-label">
+    Herní systém
+    <select class="input"
+            [value]="systemCode()"
+            (change)="systemCode.set($any($event.target).value)">
+      <option value="">— vyber systém —</option>
+      @for (s of systems(); track s.code) {
+        <option [value]="s.code">{{ s.name }}</option>
+      }
+    </select>
+  </label>
+
+  @if (error()) {
+    <p class="error-text">{{ error() }}</p>
+  }
+
+  <button class="btn self-start" (click)="submit()"
+          [disabled]="loading() || !name().trim() || !systemCode()">
+    Vytvořit postavu
+  </button>
+</div>

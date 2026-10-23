@@ -1,30 +1,32 @@
-<main class="register">
-  <h1>Registrace</h1>
-  <form (submit)="$event.preventDefault(); submit()">
-    <label>
+<div class="mx-auto mt-12 w-full max-w-sm">
+  <h1 class="mb-8 text-center text-3xl tracking-[0.2em] text-teal">Registrace</h1>
+
+  <form class="card flex flex-col gap-4" (submit)="$event.preventDefault(); submit()">
+    <label class="field-label">
       Jméno
-      <input #nameInput type="text" autocomplete="nickname"
+      <input #nameInput class="input" type="text" autocomplete="nickname"
              (input)="displayName.set(nameInput.value)">
     </label>
-    <label>
+    <label class="field-label">
       E-mail
-      <input #emailInput type="email" autocomplete="username"
+      <input #emailInput class="input" type="email" autocomplete="username"
              (input)="email.set(emailInput.value)">
     </label>
-    <label>
+    <label class="field-label">
       Heslo
-      <input #passwordInput type="password" autocomplete="new-password"
+      <input #passwordInput class="input" type="password" autocomplete="new-password"
              (input)="password.set(passwordInput.value)">
     </label>
 
     @if (error()) {
-      <p class="error">{{ error() }}</p>
+      <p class="error-text">{{ error() }}</p>
     }
 
-    <button type="submit"
+    <button class="btn" type="submit"
             [disabled]="loading() || !displayName() || !email() || !password()">
       Zaregistrovat
     </button>
   </form>
-  <p>Už máš účet? <a routerLink="/login">Přihlas se</a></p>
-</main>
+
+  <p class="mt-6 text-center text-sm text-dim">Už máš účet? <a routerLink="/login">Přihlas se</a></p>
+</div>

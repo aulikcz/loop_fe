@@ -19,5 +19,5 @@ export class GameList implements OnInit{
                 next: r => this.games.set(r),
                 error: err => console.error('Failed on loading', err)
             });
-  }
+    }
 }
