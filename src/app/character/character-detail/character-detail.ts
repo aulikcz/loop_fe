@@ -21,6 +21,9 @@ export class CharacterDetail implements OnInit {
   error = signal('');
   saving = signal(false);
   message = signal('');
+  code = signal('');
+  joinError = signal('');
+  joining = signal(false);
 
   ngOnInit() {
     const idParam = this.route.snapshot.paramMap.get('id');
@@ -66,5 +69,36 @@ export class CharacterDetail implements OnInit {
           this.message.set('Uložení se nepovedlo.');
         },
       });
+  }
+
+  join() {
+    const c = this.character();
+    if (!c) return;
+    this.joining.set(true);
+    this.joinError.set('');
+    this.characterService.join(c.id, this.code()).subscribe({
+      next: (updated) => {
+        this.character.set(updated);
+        this.code.set('');
+        this.joining.set(false);
+      },
+      error: (err) => {
+        this.joining.set(false);
+        this.joinError.set(
+          err.status === 409
+            ? 'Postava už je ve hře.'
+            : 'Neplatný nebo vypršelý kód, nebo jiný herní systém.',
+        );
+      },
+    });
+  }
+
+  leave() {
+    const c = this.character();
+    if (!c) return;
+    this.characterService.leave(c.id).subscribe({
+      next: (updated) => this.character.set(updated),
+      error: () => this.joinError.set('Odpojení se nepovedlo.'),
+    });
   }
 }

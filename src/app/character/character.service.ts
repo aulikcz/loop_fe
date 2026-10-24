@@ -24,4 +24,12 @@ export class CharacterService {
   update(id: number, req: UpdateCharacterRequest): Observable<Character> {
     return this.http.put<Character>(`${this.baseUrl}/${id}`, req);
   }
+
+  join(id: number, code: string): Observable<Character> {
+    return this.http.post<Character>(`${this.baseUrl}/${id}/join`, { code });
+  }
+
+  leave(id: number): Observable<Character> {
+    return this.http.post<Character>(`${this.baseUrl}/${id}/leave`, {});
+  }
 }

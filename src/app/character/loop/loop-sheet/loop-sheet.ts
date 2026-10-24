@@ -1,4 +1,4 @@
-import { Component, computed, model } from '@angular/core';
+import { Component, computed, input, model } from '@angular/core';
 import {
   ARCHETYPES,
   ATTRS,
@@ -25,6 +25,7 @@ export class LoopSheet {
   levels = [1, 2, 3, 4, 5];
   xpSlots = Array.from({ length: 10 }, (_, i) => i);
   luckSlots = computed(() => Array.from({ length: luckMax(this.data().age) }, (_, i) => i));
+  readonly = input(false);
 
   patch(changes: Partial<LoopSheetData>) {
     this.sheet.set({ ...this.data(), ...changes });

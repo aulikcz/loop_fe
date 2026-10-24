@@ -9,6 +9,8 @@ import { ResetPassword } from './auth/reset-password/reset-password';
 import { CharacterList } from './character/character-list/character-list';
 import { CharacterCreate } from './character/character-create/character-create';
 import { CharacterDetail } from './character/character-detail/character-detail';
+import { GameDetail } from './game/game-detail/game-detail';
+import { GameCharacterModal } from './game/game-character-modal/game-character-modal';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'games', pathMatch: 'full' },
@@ -21,5 +23,11 @@ export const routes: Routes = [
     { path: 'characters', component: CharacterList, canActivate: [authGuard] },
     { path: 'characters/new', component: CharacterCreate, canActivate: [authGuard] },
     { path: 'characters/:id', component: CharacterDetail, canActivate: [authGuard] },
+    {
+        path: 'games/:id',
+        component: GameDetail,
+        canActivate: [authGuard],
+        children: [{ path: 'characters/:characterId', component: GameCharacterModal }],
+    },
     { path: '**', redirectTo: 'games' }
 ];

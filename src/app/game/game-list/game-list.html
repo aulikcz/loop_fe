@@ -5,10 +5,12 @@
 
 <ul class="grid gap-3">
   @for (g of games(); track g.id) {
-    <li class="card card-link flex items-center gap-4">
-      <strong class="flex-1 font-display text-lg font-semibold">{{ g.name }}</strong>
-      <span class="text-sm text-dim">{{ g.gameSystem }}</span>
-      <span class="badge" [class.badge-accent]="g.playerRole === 'NARRATOR'">{{ g.playerRole }}</span>
+    <li>
+      <a [routerLink]="['/games', g.id]" class="card card-link flex items-center gap-4 hover:no-underline">
+        <strong class="flex-1 font-display text-lg font-semibold text-ink">{{ g.name }}</strong>
+        <span class="text-sm text-dim">{{ g.gameSystem }}</span>
+        <span class="badge" [class.badge-accent]="g.playerRole === 'NARRATOR'">{{ g.playerRole }}</span>
+      </a>
     </li>
   } @empty {
     <li class="card text-dim">Zatím žádné hry.</li>

@@ -4,6 +4,8 @@ export interface Character {
   systemCode: string;
   templateVersion: number;
   sheet: Record<string, unknown>;
+  gameId?: number | null;
+  gameName?: string | null;
 }
 
 export interface CreateCharacterRequest {

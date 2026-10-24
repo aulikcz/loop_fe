@@ -1,0 +1,45 @@
+<dialog #dlg (close)="navigateBack()" (click)="onDialogClick($event)"
+        class="m-auto max-h-[92vh] w-[min(64rem,95vw)] overflow-y-auto rounded-2xl border border-line bg-bg p-0 text-ink shadow-2xl backdrop:bg-black/70 backdrop:backdrop-blur-sm">
+  <div class="p-6">
+    @if (loading()) {
+      <p class="text-dim">Načítám…</p>
+    } @else if (error()) {
+      <p class="error-text">{{ error() }}</p>
+      <button type="button" class="btn btn-ghost mt-4" (click)="closeDialog()">Zavřít</button>
+    } @else if (detail(); as d) {
+      <div class="mb-6 flex flex-wrap items-center gap-3">
+        <input class="min-w-0 flex-1 border-b border-transparent bg-transparent pb-1 font-display text-3xl font-semibold text-ink transition focus:border-aurora-cyan focus:outline-none"
+               type="text" maxlength="100"
+               [readOnly]="!d.canEdit"
+               [value]="name()"
+               (input)="name.set($any($event.target).value)" />
+        <span class="badge">{{ d.systemCode }}</span>
+        <span class="text-sm text-dim">hráč: {{ d.ownerName }}</span>
+        @if (!d.canEdit) {
+          <span class="badge badge-accent">jen pro čtení</span>
+        }
+        @if (d.canEdit) {
+          <button type="button" class="btn" (click)="save()" [disabled]="saving() || !name().trim()">
+            {{ saving() ? 'Ukládám…' : 'Uložit' }}
+          </button>
+        }
+        <button type="button" class="btn btn-ghost" (click)="closeDialog()" aria-label="Zavřít">✕</button>
+      </div>
+
+      @if (message()) {
+        <p class="mb-4 text-sm"
+           [class.text-ok]="message() === 'Uloženo.'"
+           [class.text-danger]="message() !== 'Uloženo.'">{{ message() }}</p>
+      }
+
+      @if (d.systemCode === 'loop') {
+        <app-loop-sheet [(sheet)]="sheet" [readonly]="!d.canEdit" />
+      } @else {
+        <div class="card">
+          <p class="mb-3 text-dim">Pro tento systém zatím nemáme vlastní kartu.</p>
+          <pre class="overflow-x-auto text-xs text-dim">{{ sheet() | json }}</pre>
+        </div>
+      }
+    }
+  </div>
+</dialog>

@@ -1,0 +1,68 @@
+<a routerLink="/games" class="text-sm">← Zpět na hry</a>
+
+@if (loading()) {
+  <p class="mt-6 text-dim">Načítám…</p>
+} @else if (error()) {
+  <p class="error-text mt-6">{{ error() }}</p>
+} @else if (game(); as g) {
+  <div class="mb-6 mt-4 flex flex-wrap items-center gap-3">
+    <h2 class="flex-1 text-3xl font-semibold">{{ g.name }}</h2>
+    <span class="badge">{{ g.gameSystem }}</span>
+    <span class="badge" [class.badge-accent]="isNarrator()">{{ g.playerRole }}</span>
+  </div>
+
+  @if (isNarrator()) {
+    <section class="card mb-6">
+      <h3 class="section-title">Pozvánka pro hráče</h3>
+
+      @if (invite(); as i) {
+        <div class="flex flex-wrap items-center gap-4">
+          <span class="font-mono text-3xl tracking-[0.3em]"
+                [class.text-aurora-cyan]="!inviteExpired()"
+                [class.text-dim]="inviteExpired()">{{ i.code }}</span>
+          <button type="button" class="btn btn-ghost" (click)="copy()">{{ copied() ? 'Zkopírováno' : 'Kopírovat' }}</button>
+        </div>
+        <p class="mt-2 text-sm" [class.text-dim]="!inviteExpired()" [class.text-danger]="inviteExpired()">
+          @if (inviteExpired()) { Kód vypršel } @else { Platí do {{ i.expiresAt | date: 'd. M. y HH:mm' }} }
+        </p>
+      } @else {
+        <p class="text-dim">Zatím žádný kód.</p>
+      }
+
+      <button type="button" class="btn mt-4" (click)="regenerate()">
+        {{ invite() ? 'Vygenerovat nový kód' : 'Vygenerovat kód' }}
+      </button>
+      @if (inviteError()) {
+        <p class="error-text mt-2">{{ inviteError() }}</p>
+      }
+      <p class="mt-3 text-xs text-dim">
+        Hráč kód zadá na své postavě v části „Připojit ke hře“. Nový kód zneplatní předchozí.
+      </p>
+    </section>
+  }
+
+  <h3 class="section-title">{{ isNarrator() ? 'Postavy ve hře' : 'Moje postavy ve hře' }}</h3>
+
+  <ul class="grid gap-3 sm:grid-cols-2">
+    @for (c of characters(); track c.id) {
+      <li>
+        <a [routerLink]="['characters', c.id]" class="card card-link block hover:no-underline">
+          <div class="font-display text-lg font-semibold text-ink">{{ c.name }}</div>
+          <div class="mt-2 flex items-center gap-2">
+            <span class="badge">{{ c.systemCode }}</span>
+            @if (isNarrator()) {
+              <span class="text-sm text-dim">{{ c.ownerName }}</span>
+            }
+          </div>
+        </a>
+      </li>
+    } @empty {
+      <li class="card text-dim sm:col-span-2">
+        @if (isNarrator()) { Zatím se nikdo nepřipojil. Pošli hráčům kód výše. }
+        @else { Ve hře zatím nemáš žádnou postavu. Připoj ji kódem na stránce postavy. }
+      </li>
+    }
+  </ul>
+}
+
+<router-outlet />

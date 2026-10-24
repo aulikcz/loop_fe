@@ -22,6 +22,27 @@
        [class.text-danger]="message() !== 'Uloženo.'">{{ message() }}</p>
   }
 
+  @if (c.gameId) {
+    <div class="card mb-4 flex flex-wrap items-center gap-3">
+      <span class="text-sm text-dim">Ve hře:</span>
+      <a [routerLink]="['/games', c.gameId]" class="font-medium">{{ c.gameName }}</a>
+      <button type="button" class="btn btn-ghost ml-auto" (click)="leave()">Odpojit od hry</button>
+    </div>
+  } @else {
+    <div class="card mb-4 flex flex-wrap items-end gap-3">
+      <label class="field-label min-w-48 flex-1">
+        Připojit ke hře (kód od vypravěče)
+        <input class="input uppercase" type="text" maxlength="12" placeholder="např. K7QF-3MXP"
+              [value]="code()"
+              (input)="code.set($any($event.target).value)" />
+      </label>
+      <button type="button" class="btn" (click)="join()" [disabled]="joining() || !code().trim()">Připojit</button>
+      @if (joinError()) {
+        <p class="error-text w-full">{{ joinError() }}</p>
+      }
+    </div>
+  }
+
   @if (c.systemCode === 'loop') {
     <app-loop-sheet [(sheet)]="sheet" />
   } @else {
