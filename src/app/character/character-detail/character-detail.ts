@@ -4,10 +4,13 @@ import { RouterLink, ActivatedRoute } from '@angular/router';
 import { Character } from '../character.model';
 import { CharacterService } from '../character.service';
 import { LoopSheet } from '../loop/loop-sheet/loop-sheet';
+import { VaesenSheet } from '../vaesen/vaesen-sheet/vaesen-sheet';
+import { ForbiddenLandsSheet } from '../forbidden-lands/forbidden-lands-sheet/forbidden-lands-sheet';
+import { applySystemTheme } from '../../core/theme'; 
 
 @Component({
   selector: 'app-character-detail',
-  imports: [RouterLink, JsonPipe, LoopSheet],
+  imports: [RouterLink, JsonPipe, LoopSheet, VaesenSheet, ForbiddenLandsSheet],
   templateUrl: './character-detail.html',
 })
 export class CharacterDetail implements OnInit {
@@ -41,12 +44,17 @@ export class CharacterDetail implements OnInit {
         this.name.set(c.name);
         this.sheet.set(c.sheet);
         this.loading.set(false);
+        applySystemTheme(c.systemCode);
       },
       error: () => {
         this.error.set('Postava nenalezena.');
         this.loading.set(false);
       },
     });
+  }
+
+  ngOnDestroy() {
+    applySystemTheme(null);
   }
 
   save() {

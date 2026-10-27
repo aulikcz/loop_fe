@@ -34,6 +34,10 @@
 
       @if (d.systemCode === 'loop') {
         <app-loop-sheet [(sheet)]="sheet" [readonly]="!d.canEdit" />
+      } @else if (d.systemCode === 'vaesen') {
+        <app-vaesen-sheet [(sheet)]="sheet" [readonly]="!d.canEdit" />
+      } @else if (d.systemCode === 'forbidden-lands') {
+        <app-forbidden-lands-sheet [(sheet)]="sheet" [readonly]="!d.canEdit" />
       } @else {
         <div class="card">
           <p class="mb-3 text-dim">Pro tento systém zatím nemáme vlastní kartu.</p>

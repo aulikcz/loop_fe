@@ -1,0 +1,128 @@
+/*
+  Témata herních systémů.
+  Použití: <body data-system="vaesen"> (nastavuje applySystemTheme).
+  Bez atributu = výchozí aurora. Komponenty se nemění, jen proměnné a tvary.
+ 
+  Poznámka k názvům: --color-aurora-green / -cyan jsou "hlavní" a "vedlejší"
+  akcent (tlačítka, nadpisy sekcí, focus), nemusí být doslova zelená a cyan.
+*/
+ 
+/* ---------- Tales from the Loop: západ slunce na předměstí ---------- */
+[data-system='loop'] {
+  --color-bg: #0b1020;
+  --aurora-1: rgb(244 114 182);
+  --aurora-2: rgb(251 146 60);
+  --aurora-3: rgb(34 211 238);
+  --color-aurora-green: #f472b6;
+  --color-aurora-cyan: #22d3ee;
+  --color-aurora-violet: #fb923c;
+}
+ 
+/* ---------- Vaesen: mlha, mech a svíčky ---------- */
+[data-system='vaesen'] {
+  --color-bg: #0a1210;
+  --color-ink: #e8e4d8;
+  --color-dim: #a39f90;
+  --color-teal: #d6b86a;
+  --color-amber: #d6b86a;
+  --color-danger: #c96a5a;
+  --color-aurora-green: #6f9a82;
+  --color-aurora-cyan: #d6b86a;
+  --color-aurora-violet: #8a7fa8;
+  --aurora-1: rgb(111 154 130);
+  --aurora-2: rgb(214 184 106);
+  --aurora-3: rgb(80 110 120);
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+}
+[data-system='vaesen'] .card {
+  border-radius: 2px;
+  border-color: color-mix(in srgb, var(--color-aurora-cyan) 30%, transparent);
+  outline: 1px solid color-mix(in srgb, var(--color-aurora-cyan) 20%, transparent);
+  outline-offset: -6px;
+}
+[data-system='vaesen'] .section-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+[data-system='vaesen'] .dot {
+  width: 0.8rem;
+  height: 0.8rem;
+  margin: 0.2rem;
+  border-radius: 2px;
+  transform: rotate(45deg);
+}
+[data-system='vaesen'] .dot-sm {
+  width: 0.55rem;
+  height: 0.55rem;
+  margin: 0.15rem;
+}
+[data-system='vaesen'] .chip,
+[data-system='vaesen'] .badge {
+  border-radius: 999px;
+}
+ 
+/* ---------- Forbidden Lands: popel, uhlíky a mapa ---------- */
+[data-system='forbidden-lands'] {
+  --color-bg: #130d0a;
+  --color-ink: #efe2c9;
+  --color-dim: #b0a088;
+  --color-teal: #f09a5b;
+  --color-amber: #e8793a;
+  --color-danger: #e0705f;
+  --color-aurora-green: #c2410c;
+  --color-aurora-cyan: #f09a5b;
+  --color-aurora-violet: #8b5e3c;
+  --aurora-1: rgb(232 121 58);
+  --aurora-2: rgb(180 83 9);
+  --aurora-3: rgb(95 127 74);
+  --font-display: 'Cinzel', Georgia, serif;
+}
+[data-system='forbidden-lands'] .card {
+  border-radius: 4px;
+  border-top: 3px solid var(--color-amber);
+}
+[data-system='forbidden-lands'] .section-title {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+}
+[data-system='forbidden-lands'] .dot {
+  border: 0;
+  border-radius: 0;
+  background: rgb(239 226 201 / 0.18);
+  clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0 50%);
+}
+[data-system='forbidden-lands'] .dot:hover {
+  filter: brightness(1.5);
+}
+[data-system='forbidden-lands'] .dot-on {
+  background: var(--color-amber);
+  box-shadow: none;
+}
+/* zranění atributu (v šabloně přidává bg-danger) */
+[data-system='forbidden-lands'] .dot.bg-danger {
+  background: var(--color-danger);
+}
+[data-system='forbidden-lands'] .chip,
+[data-system='forbidden-lands'] .badge {
+  border-radius: 2px;
+}
+ 
+/* ---------- Prvky, které se tématem nemají měnit (např. záhlaví s logem) ----------
+   Přidej třídu na element, uvnitř něj pak platí vždy výchozí vzhled. */
+.theme-default {
+  --color-bg: #070b14;
+  --color-ink: #e6edf7;
+  --color-dim: #94a3b8;
+  --color-teal: #22d3ee;
+  --color-amber: #fbbf24;
+  --color-danger: #fb7185;
+  --color-aurora-green: #34d399;
+  --color-aurora-cyan: #22d3ee;
+  --color-aurora-violet: #8b5cf6;
+  --font-display: 'Sora', system-ui, sans-serif;
+}

@@ -5,6 +5,7 @@ import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterOutlet } from 
 import { filter } from 'rxjs';
 import { GameViewService } from '../game-view.service';
 import { GameCharacterListItem, GameInfo, InviteInfo } from '../game-view.model';
+import { applySystemTheme } from '../../core/theme';
 
 @Component({
   selector: 'app-game-detail',
@@ -48,6 +49,8 @@ export class GameDetail implements OnInit {
     this.viewService.game(this.gameId).subscribe({
       next: (g) => {
         this.game.set(g);
+        applySystemTheme(g.gameSystem);
+        console.log(g.gameSystem);
         this.loading.set(false);
         this.loadCharacters();
         if (g.playerRole === 'NARRATOR') {
@@ -59,6 +62,10 @@ export class GameDetail implements OnInit {
         this.loading.set(false);
       },
     });
+  }
+
+  ngOnDestroy() {
+    applySystemTheme(null);
   }
 
   loadCharacters() {

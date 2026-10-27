@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./themes.css";
 
 @theme {
   --color-bg: #070b14;
@@ -21,6 +22,68 @@
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 }
 
+/* Registrované proměnné: díky nim se barvy při změně tématu plynule přelijí */
+@property --color-bg {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #070b14;
+}
+@property --color-teal {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #22d3ee;
+}
+@property --color-amber {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #fbbf24;
+}
+@property --color-danger {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #fb7185;
+}
+@property --color-ink {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #e6edf7;
+}
+@property --color-dim {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #94a3b8;
+}
+@property --color-aurora-green {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #34d399;
+}
+@property --color-aurora-cyan {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #22d3ee;
+}
+@property --color-aurora-violet {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #8b5cf6;
+}
+@property --aurora-1 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: rgb(52 211 153);
+}
+@property --aurora-2 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: rgb(139 92 246);
+}
+@property --aurora-3 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: rgb(34 211 238);
+}
+
 @keyframes aurora-drift {
   from { transform: translate3d(-3%, -2%, 0) scale(1); }
   to   { transform: translate3d(3%, 3%, 0) scale(1.08); }
@@ -33,6 +96,19 @@
   body {
     @apply bg-bg font-sans text-ink antialiased;
     min-height: 100vh;
+    transition:
+      --color-bg 0.9s ease,
+      --color-teal 0.9s ease,
+      --color-amber 0.9s ease,
+      --color-danger 0.9s ease,
+      --color-ink 0.9s ease,
+      --color-dim 0.9s ease,
+      --color-aurora-green 0.9s ease,
+      --color-aurora-cyan 0.9s ease,
+      --color-aurora-violet 0.9s ease,
+      --aurora-1 0.9s ease,
+      --aurora-2 0.9s ease,
+      --aurora-3 0.9s ease;
   }
   body::before {
     content: '';
@@ -41,13 +117,16 @@
     z-index: -1;
     pointer-events: none;
     background:
-      radial-gradient(40rem 26rem at 20% 15%, rgb(52 211 153 / 0.22), transparent 65%),
-      radial-gradient(44rem 30rem at 80% 10%, rgb(139 92 246 / 0.24), transparent 65%),
-      radial-gradient(38rem 24rem at 55% 90%, rgb(34 211 238 / 0.14), transparent 65%);
+      radial-gradient(40rem 26rem at 20% 15%, color-mix(in srgb, var(--aurora-1) 22%, transparent), transparent 65%),
+      radial-gradient(44rem 30rem at 80% 10%, color-mix(in srgb, var(--aurora-2) 24%, transparent), transparent 65%),
+      radial-gradient(38rem 24rem at 55% 90%, color-mix(in srgb, var(--aurora-3) 14%, transparent), transparent 65%);
     filter: blur(30px);
     animation: aurora-drift 28s ease-in-out infinite alternate;
   }
   @media (prefers-reduced-motion: reduce) {
+    body {
+      transition: none;
+    }
     body::before {
       animation: none;
     }

@@ -1,0 +1,236 @@
+<fieldset [disabled]="readonly()" class="m-0 min-w-0 border-0 p-0">
+  <div class="grid gap-5">
+
+    <section class="card">
+      <h3 class="section-title">Identifikace</h3>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <label class="field-label">
+          Age group
+          <select class="input" (change)="setText('ageGroup', $any($event.target).value)">
+            <option value="" [selected]="!data().ageGroup">—</option>
+            @for (a of ageGroups; track a) {
+              <option [value]="a" [selected]="a === data().ageGroup">{{ a }}</option>
+            }
+          </select>
+        </label>
+        <label class="field-label">
+          Archetype
+          <input class="input" type="text" list="vaesen-archetypes"
+                 [value]="data().archetype"
+                 (input)="setText('archetype', $any($event.target).value)" />
+          <datalist id="vaesen-archetypes">
+            @for (a of archetypes; track a) {
+              <option [value]="a"></option>
+            }
+          </datalist>
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3 class="section-title">Atributy</h3>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        @for (a of attrs; track a) {
+          <div class="rounded-xl border border-line bg-white/5 p-4 text-center">
+            <div class="text-xs font-semibold tracking-[0.2em] text-aurora-cyan uppercase">{{ a }}</div>
+            <div class="my-2 font-display text-5xl font-semibold text-amber">{{ data().attrs[a] }}</div>
+            <div class="flex justify-center gap-1.5">
+              @for (i of levels; track i) {
+                <button type="button" class="dot" [class.dot-on]="i <= data().attrs[a]" (click)="setAttr(a, i)"></button>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+
+    <section class="card">
+      <h3 class="section-title">Dovednosti</h3>
+      <p class="mb-4 text-xs text-dim">Číslo vlevo od teček = počet kostek do hodu (atribut + dovednost).</p>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        @for (g of skillGroups; track g.attr) {
+          <div>
+            <h4 class="mb-3 text-xs font-semibold tracking-widest text-dim uppercase">{{ g.attr }}</h4>
+            @for (s of g.skills; track s) {
+              <div class="mb-2 flex items-center justify-between gap-2">
+                <span class="text-sm capitalize">{{ s }}</span>
+                <span class="flex items-center gap-2">
+                  <span class="w-5 text-right text-sm font-semibold text-amber">{{ pool(g.attr, s) }}</span>
+                  <span class="flex gap-1">
+                    @for (i of levels; track i) {
+                      <button type="button" class="dot dot-sm" [class.dot-on]="i <= data().skills[s]" (click)="setSkill(s, i)"></button>
+                    }
+                  </span>
+                </span>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </section>
+
+    <section class="card">
+      <h3 class="section-title">Stavy</h3>
+      <p class="field-label mb-2">Physical</p>
+      <div class="flex flex-wrap gap-2">
+        @for (c of physicalConditions; track c) {
+          <button type="button" class="chip" [class.chip-danger]="data().physical[c]" (click)="toggleCondition('physical', c)">{{ c }}</button>
+        }
+      </div>
+      <p class="field-label mt-5 mb-2">Mental</p>
+      <div class="flex flex-wrap gap-2">
+        @for (c of mentalConditions; track c) {
+          <button type="button" class="chip" [class.chip-danger]="data().mental[c]" (click)="toggleCondition('mental', c)">{{ c }}</button>
+        }
+      </div>
+    </section>
+
+    <section class="card">
+      <h3 class="section-title">Zdroje a zkušenosti</h3>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div>
+          <p class="field-label mb-2">Resources</p>
+          <div class="flex gap-1.5">
+            @for (i of levels; track i) {
+              <button type="button" class="dot" [class.dot-on]="i <= data().resources" (click)="setResources(i)"></button>
+            }
+          </div>
+        </div>
+        <label class="field-label">
+          Experience
+          <input class="input" type="number" min="0"
+                 [value]="data().xp"
+                 (input)="setNumber('xp', $any($event.target).value)" />
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3 class="section-title">Osobnost</h3>
+      <div class="grid gap-4 sm:grid-cols-3">
+        <label class="field-label">
+          Motivation
+          <textarea class="input" rows="3" [value]="data().motivation" (input)="setText('motivation', $any($event.target).value)"></textarea>
+        </label>
+        <label class="field-label">
+          Trauma
+          <textarea class="input" rows="3" [value]="data().trauma" (input)="setText('trauma', $any($event.target).value)"></textarea>
+        </label>
+        <label class="field-label">
+          Dark secret
+          <textarea class="input" rows="3" [value]="data().darkSecret" (input)="setText('darkSecret', $any($event.target).value)"></textarea>
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3 class="section-title">Vztahy</h3>
+      <div class="grid gap-3 sm:grid-cols-2">
+        @for (i of pcSlots; track i) {
+          <label class="field-label">
+            PC {{ i + 1 }}
+            <input class="input" type="text"
+                   [value]="data().relationships[i]"
+                   (input)="setRelationship(i, $any($event.target).value)" />
+          </label>
+        }
+      </div>
+    </section>
+
+    <section class="card">
+      <h3 class="section-title">Talenty</h3>
+      <div class="grid gap-3">
+        @for (t of data().talents; track $index) {
+          <div class="flex flex-wrap items-center gap-2">
+            <input class="input min-w-40 flex-1" type="text" placeholder="Název talentu"
+                   [value]="t.name" (input)="setTalent($index, 'name', $any($event.target).value)" />
+            <input class="input min-w-40 flex-2" type="text" placeholder="Poznámka / efekt"
+                   [value]="t.note" (input)="setTalent($index, 'note', $any($event.target).value)" />
+            <button type="button" class="btn btn-ghost" (click)="removeTalent($index)">Smazat</button>
+          </div>
+        }
+        <div>
+          <button type="button" class="btn btn-ghost" (click)="addTalent()">Přidat talent</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3 class="section-title">Zbroj a zbraně</h3>
+
+      <p class="field-label mb-2">Armor</p>
+      <div class="mb-6 grid gap-3 sm:grid-cols-[2fr_1fr_1fr]">
+        <label class="field-label">
+          Název
+          <input class="input" type="text" [value]="data().armor.name" (input)="setArmorText($any($event.target).value)" />
+        </label>
+        <label class="field-label">
+          Protection
+          <input class="input" type="number" [value]="data().armor.protection" (input)="setArmorNumber('protection', $any($event.target).value)" />
+        </label>
+        <label class="field-label">
+          Agility
+          <input class="input" type="number" [value]="data().armor.agility" (input)="setArmorNumber('agility', $any($event.target).value)" />
+        </label>
+      </div>
+
+      <p class="field-label mb-2">Weapons</p>
+      <div class="grid gap-3">
+        @for (w of data().weapons; track $index) {
+          <div class="grid items-end gap-2 sm:grid-cols-[2fr_1fr_1fr_1fr_auto]">
+            <label class="field-label">
+              Název
+              <input class="input" type="text" [value]="w.name" (input)="setWeaponText($index, 'name', $any($event.target).value)" />
+            </label>
+            <label class="field-label">
+              Bonus
+              <input class="input" type="number" [value]="w.bonus" (input)="setWeaponNumber($index, 'bonus', $any($event.target).value)" />
+            </label>
+            <label class="field-label">
+              Damage
+              <input class="input" type="number" [value]="w.damage" (input)="setWeaponNumber($index, 'damage', $any($event.target).value)" />
+            </label>
+            <label class="field-label">
+              Range
+              <input class="input" type="text" [value]="w.range" (input)="setWeaponText($index, 'range', $any($event.target).value)" />
+            </label>
+            <button type="button" class="btn btn-ghost" (click)="removeWeapon($index)">Smazat</button>
+          </div>
+        }
+        <div>
+          <button type="button" class="btn btn-ghost" (click)="addWeapon()">Přidat zbraň</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3 class="section-title">Výbava</h3>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <label class="field-label">
+          Equipment
+          <textarea class="input" rows="4" [value]="data().equipment" (input)="setText('equipment', $any($event.target).value)"></textarea>
+        </label>
+        <label class="field-label">
+          Memento
+          <textarea class="input" rows="4" [value]="data().memento" (input)="setText('memento', $any($event.target).value)"></textarea>
+        </label>
+        <label class="field-label">
+          Advantages
+          <textarea class="input" rows="3" [value]="data().advantages" (input)="setText('advantages', $any($event.target).value)"></textarea>
+        </label>
+        <label class="field-label">
+          Insights &amp; defects
+          <textarea class="input" rows="3" [value]="data().insightsAndDefects" (input)="setText('insightsAndDefects', $any($event.target).value)"></textarea>
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3 class="section-title">Poznámky</h3>
+      <textarea class="input" rows="5"
+                [value]="data().notes"
+                (input)="setText('notes', $any($event.target).value)"></textarea>
+    </section>
+
+  </div>
+</fieldset>

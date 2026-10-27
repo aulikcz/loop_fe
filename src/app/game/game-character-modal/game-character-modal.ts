@@ -6,10 +6,12 @@ import { GameViewService } from '../game-view.service';
 import { GameCharacterDetail } from '../game-view.model';
 import { CharacterService } from '../../character/character.service';
 import { LoopSheet } from '../../character/loop/loop-sheet/loop-sheet';
+import { VaesenSheet } from '../../character/vaesen/vaesen-sheet/vaesen-sheet';
+import { ForbiddenLandsSheet } from '../../character/forbidden-lands/forbidden-lands-sheet/forbidden-lands-sheet';
 
 @Component({
   selector: 'app-game-character-modal',
-  imports: [LoopSheet, JsonPipe],
+  imports: [LoopSheet, JsonPipe, VaesenSheet, ForbiddenLandsSheet],
   templateUrl: './game-character-modal.html',
 })
 export class GameCharacterModal implements AfterViewInit {
